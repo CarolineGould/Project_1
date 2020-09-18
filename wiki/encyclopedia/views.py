@@ -1,7 +1,9 @@
 from django.shortcuts import render
+from markdown2 import Markdown
 
 from . import util
 
+mark = Markdown()
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -17,6 +19,7 @@ def entry(request, title):
         })
 
     return render(request, "encyclopedia/entry.html", {
-        "title": title
+        "title": title, 
+        "content": mark.convert(content)
     })
 
