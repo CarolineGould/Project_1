@@ -42,7 +42,9 @@ def create_page (request):
     if _check_if_title_exists (form ["entry_title"].value()):
         already_exists = True
     if form.is_valid() and already_exists == False:
-        return HttpResponseRedirect(reverse("index"))
+        util.save_entry(form ["entry_title"].value(),form ["entry_text"].value() )
+        # return HttpResponseRedirect(reverse("wiki/" + form ["entry_title"].value()))
+        return HttpResponseRedirect("wiki/" + form ["entry_title"].value())
     return render (request, "encyclopedia/add.html", {
         "form": form, 
         "already_exists" : already_exists
