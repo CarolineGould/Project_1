@@ -6,10 +6,12 @@
 
 {% block body %}
     <h1>Add an Entry</h1>
+    {% if already_exists %}
+    <p>Already Exists</p>
+    {% endif %}
     <form action="create_page" method="post">
         {% csrf_token %}
         {{ form }}
         <input type="submit">
     </form>
-
 {% endblock %} 
