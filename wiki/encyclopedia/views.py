@@ -3,6 +3,8 @@ from markdown2 import Markdown
 from django import forms
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
+import random
 
 from . import util
 
@@ -58,3 +60,7 @@ def _check_if_title_exists (title):
             return True
     return False
 
+def random_page(request):
+    entries = util.list_entries() 
+    selected_page = random.choice(entries)
+    return HttpResponseRedirect(reverse('entry', args=[selected_page]))
