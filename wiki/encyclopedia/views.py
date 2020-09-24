@@ -64,3 +64,4 @@ def random_page(request):
     entries = util.list_entries() 
     selected_page = random.choice(entries)
     return HttpResponseRedirect(reverse('entry', args=[selected_page]))
+
