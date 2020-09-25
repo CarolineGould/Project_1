@@ -12,6 +12,9 @@ class EntryForm(forms.Form):
     entry_title = forms.CharField(label="New Entry Title")
     entry_text =  forms.CharField(widget=forms.Textarea)
 
+class SearchForm(forms.Form):
+    search_title = forms.CharField()
+
 mark = Markdown()
 
 def index(request):
@@ -64,4 +67,13 @@ def random_page(request):
     entries = util.list_entries() 
     selected_page = random.choice(entries)
     return HttpResponseRedirect(reverse('entry', args=[selected_page]))
+
+def search (request):
+    entries = util.list_entries() 
+    form= SearchForm(request.POST)
+    search_title  = form ["search_title"].value()
+    result = filter(lambda title: title.find(search_title) != -1, entries) 
+    return render (request, "encyclopedia/search.html", {
+       "entries": result
+    })
 
