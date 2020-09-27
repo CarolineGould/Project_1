@@ -5,13 +5,13 @@
 {% endblock %}
 
 {% block body %}  
-<form action="{% url 'edit' page=title %}" method="get">
-    {% csrf_token %}
-    <textarea> {{content|safe}}</textarea>
-    <input type="submit">
-</form>
- <div>
-        <a href="{% url 'index' %}">Home</a>
-    </div>  
-
-{% endblock %} 
+<h1>Edit Entry</h1>
+    {% if already_exists %}
+    <p>Already Exists</p>
+    {% endif %}
+    <form action="edit_page" method="get">
+        {% csrf_token %}
+        <textarea> {{content|safe}}</textarea>
+        <input type="submit">
+    </form>
+    {% endblock %} 

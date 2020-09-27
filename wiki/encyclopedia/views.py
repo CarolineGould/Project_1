@@ -10,10 +10,14 @@ from . import util
 
 class EntryForm(forms.Form):
     entry_title = forms.CharField(label="New Entry Title")
-    entry_text =  forms.CharField(widget=forms.Textarea)
+    entry_text =  forms.CharField(widget=forms.Textarea)    
 
 class SearchForm(forms.Form):
     search_title = forms.CharField()
+
+class EditForm(forms.Form):
+    edit_title: forms.CharField()
+    edit_text:  forms.CharField(widget=forms.Textarea(attrs={"class" : "content"}))
 
 mark = Markdown()
 
@@ -75,16 +79,13 @@ def search (request):
     if util.get_entry(search_title):
         return HttpResponseRedirect(reverse ('entry', args= [search_title]))
     result = filter(lambda title: title.find(search_title) != -1, entries) 
-    
     return render (request, "encyclopedia/search.html", {
        "entries": result
     })
 
 def edit_page(request, title):
-    contents = util.get_entry(title)
-    if contents is None:
-        return HttpResponseRedirect(reverse("index"))
+    edit=EditForm(initial={"edit_title": name, "edit_text": util.get_entry(name)})
     return render(request, "encyclopedia/edit.html", {
-        'edit_page_title': title,
-        'edit_page_contents': entry_contents
+        "edit": EditForm(),
+        "content" : util.get_entry(title)
     })
