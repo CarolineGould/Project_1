@@ -48,7 +48,7 @@ def create_page (request):
         already_exists = True
     if form.is_valid() and already_exists == False:
         util.save_entry(form ["entry_title"].value(),form ["entry_text"].value() )
-        # return HttpResponseRedirect(reverse("wiki/" + form ["entry_title"].value()))
+        
         return HttpResponseRedirect("wiki/" + form ["entry_title"].value())
     return render (request, "encyclopedia/add.html", {
         "form": form, 
@@ -72,8 +72,19 @@ def search (request):
     entries = util.list_entries() 
     form= SearchForm(request.POST)
     search_title  = form ["search_title"].value()
+    if util.get_entry(search_title):
+        return HttpResponseRedirect(reverse ('entry', args= [search_title]))
     result = filter(lambda title: title.find(search_title) != -1, entries) 
+    
     return render (request, "encyclopedia/search.html", {
        "entries": result
     })
 
+def edit_page(request, title):
+    contents = util.get_entry(title)
+    if contents is None:
+        return HttpResponseRedirect(reverse("index"))
+    return render(request, "encyclopedia/edit.html", {
+        'edit_page_title': title,
+        'edit_page_contents': entry_contents
+    })

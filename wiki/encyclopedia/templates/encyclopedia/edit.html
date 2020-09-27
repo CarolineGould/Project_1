@@ -1,0 +1,17 @@
+% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia
+{% endblock %}
+
+{% block body %}  
+<form action="{% url 'edit' page=title %}" method="get">
+    {% csrf_token %}
+    <textarea> {{content|safe}}</textarea>
+    <input type="submit">
+</form>
+ <div>
+        <a href="{% url 'index' %}">Home</a>
+    </div>  
+
+{% endblock %} 

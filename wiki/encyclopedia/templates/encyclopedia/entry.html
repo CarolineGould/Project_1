@@ -4,7 +4,10 @@
     Encyclopedia
 {% endblock %}
 
-{% block body %}            
+{% block body %}      
     <p>{{content|safe}}</p>
+    <div>
+        <a href="{% url 'edit' %}">Edit</a>
+    </div>       
     
-{% endblock %} 
+{% endblock %}      
